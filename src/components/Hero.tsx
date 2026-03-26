@@ -21,7 +21,11 @@ export default function Hero() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }, // Efeito easing premium
+      transition: { 
+        duration: 0.6, 
+        // Adicionamos "as any" ou usamos uma string de easing padrão para evitar o erro de tipo
+        ease: [0.16, 1, 0.3, 1] as any 
+      },
     },
   };
 
