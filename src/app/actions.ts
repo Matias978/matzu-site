@@ -13,7 +13,7 @@ export async function sendEmail(formData: FormData) {
   try {
     const { data, error } = await resend.emails.send({
       from: "Matzu Contato <onboarding@resend.dev>", // Depois você pode validar seu domínio matzu.com.br aqui
-      to: ["seu-email@exemplo.com"], // Coloque o e-mail onde você quer receber os leads
+      to: ["gestaomatzugl@gmail.com"], // Coloque o e-mail onde você quer receber os leads
       subject: `Novo Lead: ${name} - ${company}`,
       html: `
         <h1>Novo contato via Site Matzu</h1>
