@@ -2,24 +2,33 @@
 
 import { useState } from "react";
 import { Send, MessageCircle, Loader2 } from "lucide-react";
+import { sendEmail } from "@/app/actions"; // Importando a ação de servidor
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Mock function para simular o envio do formulário
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simula uma requisição de 1.5s
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Captura os dados do formulário
+    const formData = new FormData(e.currentTarget);
+    
+    // Envia para o servidor via Resend
+    const result = await sendEmail(formData);
     
     setIsSubmitting(false);
-    setIsSuccess(true);
 
-    // Reseta a mensagem de sucesso após 5 segundos
-    setTimeout(() => setIsSuccess(false), 5000);
+    if (result.success) {
+      setIsSuccess(true);
+      (e.target as HTMLFormElement).reset(); // Limpa o formulário após sucesso
+      // Reseta a mensagem de sucesso após 5 segundos
+      setTimeout(() => setIsSuccess(false), 5000);
+    } else {
+      // Caso ocorra algum erro no Resend
+      alert("Houve um erro ao enviar sua mensagem. Por favor, tente novamente.");
+    }
   };
 
   return (
@@ -70,6 +79,7 @@ export default function Contact() {
                     <input 
                       type="text" 
                       id="name" 
+                      name="name" // Adicionado para a Action
                       required
                       className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-matzu-600 focus:ring-2 focus:ring-matzu-600/20 outline-none transition-all text-slate-800"
                       placeholder="João Silva"
@@ -80,6 +90,7 @@ export default function Contact() {
                     <input 
                       type="email" 
                       id="email" 
+                      name="email" // Adicionado para a Action
                       required
                       className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-matzu-600 focus:ring-2 focus:ring-matzu-600/20 outline-none transition-all text-slate-800"
                       placeholder="joao@empresa.com.br"
@@ -92,6 +103,7 @@ export default function Contact() {
                   <input 
                     type="text" 
                     id="company" 
+                    name="company" // Adicionado para a Action
                     required
                     className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-matzu-600 focus:ring-2 focus:ring-matzu-600/20 outline-none transition-all text-slate-800"
                     placeholder="Nome da sua empresa"
@@ -102,6 +114,7 @@ export default function Contact() {
                   <label htmlFor="needs" className="text-sm font-medium text-slate-700">Sua necessidade</label>
                   <textarea 
                     id="needs" 
+                    name="needs" // Adicionado para a Action
                     rows={4}
                     required
                     className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-matzu-600 focus:ring-2 focus:ring-matzu-600/20 outline-none transition-all resize-none text-slate-800 break-words"
