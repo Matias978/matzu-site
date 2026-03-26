@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image"; // Importação necessária para o logo
 
 const navLinks = [
   { name: "Sobre", href: "#sobre" },
@@ -14,7 +15,6 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Detecta o scroll para adicionar uma sombra sutil ao header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -30,13 +30,26 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
-        {/* Logo */}
+        
+        {/* Logo com Ícone */}
         <a 
           href="#home" 
-          className="text-2xl font-bold text-matzu-900 tracking-tighter hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-2xl font-bold text-matzu-900 tracking-tighter hover:opacity-80 transition-opacity"
           aria-label="Matzu Home"
         >
-          Matzu<span className="text-matzu-600">.</span>
+          <div className="relative w-8 h-8">
+            <Image 
+              src="/logo.svg" // Certifique-se de salvar seu logo com este nome na pasta /public
+              alt="Logo Matzu"
+              width={32}
+              height={32}
+              className="object-contain"
+              priority
+            />
+          </div>
+          <span>
+            Matzu<span className="text-matzu-600">.</span>
+          </span>
         </a>
 
         {/* Desktop Navigation */}
