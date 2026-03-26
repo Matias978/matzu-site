@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-600 antialiased selection:bg-matzu-600 selection:text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-matzu-800 font-semibold tracking-tight;
+  }
+}
